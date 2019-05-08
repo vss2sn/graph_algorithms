@@ -187,8 +187,16 @@ void GraphL::ResetVisited(){
 }
 
 void GraphL::AddEdge(int u, int v, int w){
+  std::vector<std::pair<int,int>> tmp;
+  // std::cout << "Here" << std::endl;
+  for(int i=adj.size();i<u+1 || i < v+1; i++){
+    // std::cout << "Here" << std::endl;
+    adj.push_back(tmp);
+  }
+
   adj[u].push_back(std::make_pair(v,w));
   if(undirected) adj[v].push_back(std::make_pair(u,w));
+  V = adj.size();
 }
 
 int GraphL::GetEdgeWeight(int u, int v){
@@ -198,7 +206,28 @@ int GraphL::GetEdgeWeight(int u, int v){
   return NULL;
 }
 
-bool GraphL::BFS(int source, int sink){return true;}
+bool GraphL::BFS(int source, int sink){
+  ResetVisited();
+  visited[source] = true;
+  std::vector<int> parent(V);
+  // for(int i;i<V)
+  std::priority_queue<std::pair<int, int>,std::vector<std::pair<int,int>>, SortAscendingPair> Q;
+  std::pair<int, int> current;
+  Q.push(std::make_pair(source,0));
+  while(!Q.empty()){
+    current = Q.top();
+    Q.pop();
+    for(int j=0;j<adj[current.first].size();j++){
+      if(!visited[adj[current.first][j].first]){
+        visited[adj[current.first][j].first] = true;
+        parent[adj[current.first][j].first] = current.first;
+        Q.push(adj[current.first][j]);
+        if(adj[current.first][j].first == sink) return true;
+      }
+    }
+  }
+  return false;
+}
 
 bool GraphL::DFS(int source, int sink){
   visited[source] = true;
@@ -248,6 +277,16 @@ void GraphE::PrintGraphE(){
     edges[i].PrintEdge();
   }
   std::cout << "-----------" << std::endl << std::endl;
+}
+
+bool SortDecendingPair::operator()(std::pair<int, int> p1, std::pair<int, int> p2){
+  if(p1.second == p2.second) return p1.first < p2.first;
+  return p1.second < p2.second;
+}
+
+bool SortAscendingPair::operator()(std::pair<int, int> p1, std::pair<int, int> p2){
+  if(p1.second == p2.second) return p1.first > p2.first;
+  return p1.second > p2.second;
 }
 
 bool CompareEdgeWeights::operator()(Edge e1, Edge e2){

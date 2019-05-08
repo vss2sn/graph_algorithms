@@ -5,8 +5,9 @@
 #include <unistd.h>
 #include <iomanip>
 #include <unordered_set>
-#include <unordered_map> 
+#include <unordered_map>
 #include <list>
+#include <cstring>
 
 #define BLACK "\x1b[1;30m"
 #define RED "\x1b[1;31m"
@@ -65,9 +66,10 @@ public:
   std::vector<std::vector<std::pair<int, int>>> adj;
   std::vector<Vertex> v;
   std::vector<bool> visited;
+  std::vector<int> parent;
   bool undirected;
 
-  GraphL(int V=7, bool random = false, bool undirected = true);
+  GraphL(int V=0, bool random = false, bool undirected = true);
   GraphL(std::vector<std::vector<std::pair<int, int>>>& adj);
 
   void ResetVisited();
@@ -95,6 +97,15 @@ public:
 struct Subset{
   int parent, rank;
 };
+
+struct SortDecendingPair{
+  bool operator()(std::pair<int, int> p1, std::pair<int, int> p2);
+};
+
+struct SortAscendingPair{
+  bool operator()(std::pair<int, int> p1, std::pair<int, int> p2);
+};
+
 
 struct CompareEdgeWeights{
   bool operator()(Edge e1, Edge e2);
