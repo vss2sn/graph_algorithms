@@ -206,16 +206,18 @@ int GraphL::GetEdgeWeight(int u, int v){
   return NULL;
 }
 
+// No need for pair in BFS, can change to int
 bool GraphL::BFS(int source, int sink){
   ResetVisited();
   visited[source] = true;
   std::vector<int> parent(V);
   // for(int i;i<V)
-  std::priority_queue<std::pair<int, int>,std::vector<std::pair<int,int>>, SortAscendingPair> Q;
+  // std::priority_queue<std::pair<int, int>,std::vector<std::pair<int,int>>, SortAscendingPair> Q;
+  std::queue<std::pair<int,int>> Q;
   std::pair<int, int> current;
   Q.push(std::make_pair(source,0));
   while(!Q.empty()){
-    current = Q.top();
+    current = Q.front();
     Q.pop();
     for(int j=0;j<adj[current.first].size();j++){
       if(!visited[adj[current.first][j].first]){

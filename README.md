@@ -14,6 +14,8 @@
 8. Prim's Algorithm
 9. Union Find using rank and compression (not optimized)
 10. Union Find
+11. To find the shortest path from one prime to another while changing a single digit at a time, every resulting digit also being a prime.
+
 
 <a name="instructions"></a>
 #### To build and run: ####
